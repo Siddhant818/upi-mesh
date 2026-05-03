@@ -8,6 +8,31 @@
 
 ---
 
+## 🔗 Live Demo
+
+Frontend: https://upi-mesh.vercel.app/  
+Backend (API docs): https://upi-mesh-production.up.railway.app/docs
+
+## 📌 Overview
+
+This project simulates offline UPI payments where transactions are securely transmitted through a mesh network and processed once internet connectivity is available.
+
+## 🛠️ Tech Stack
+
+- Backend: FastAPI
+- Frontend: HTML, CSS, JavaScript
+- Database: SQLite
+- Deployment: Railway (backend), Vercel (frontend)
+
+## ✨ Features
+
+- Offline payment simulation via mesh network
+- End-to-end encryption (RSA + AES-GCM)
+- Idempotent transaction processing
+- Duplicate detection using hashing
+- Real-time transaction visualization
+
+
 ## What It Does
 
 You're in a basement with zero connectivity. You send ₹500 to your friend.  
@@ -80,39 +105,21 @@ upi-mesh/
 
 ---
 
-## Run Locally
+## 🚀 Run Locally
 
 ### Backend
 
 ```bash
 cd backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Start server
-uvicorn app:app --reload --port 8000
+uvicorn app:app --reload
 ```
 
-Backend runs at: http://localhost:8000  
-Auto-generated API docs: http://localhost:8000/docs
+The backend will be available at http://localhost:8000 and the API docs at http://localhost:8000/docs
 
 ### Frontend
 
-```bash
-cd frontend
-
-# Just open in browser — no build step needed
-open index.html
-
-# Or serve with Python
-python -m http.server 3000
-# Open http://localhost:3000
-```
+Open `frontend/index.html` directly in your browser (no build step required).
 
 ---
 
