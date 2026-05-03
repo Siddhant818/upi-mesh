@@ -427,3 +427,48 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3; }
 .toast.ok  { border-color: rgba(0,230,160,.3); color: var(--green); }
 .toast.err { border-color: rgba(255,64,96,.3); color: var(--red); }
 @keyframes tin { from { opacity:0; transform:translateY(6px) scale(.95); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+/* =====================
+   Responsive: Mobile / Narrow screens
+   ===================== */
+@media (max-width: 900px) {
+  /* allow page scrolling on small devices */
+  html, body { overflow: auto; }
+  .app { height: auto; min-height: 100vh; }
+
+  /* header stacks and reduces clutter */
+  .hdr { flex-wrap: wrap; gap: 8px; padding: 10px; height: auto; align-items: flex-start; }
+  .hdr-kpis { display: none; }
+  .hdr-sub { display: none; }
+
+  /* single column layout for main content */
+  .grid { display: block; padding: 10px; }
+  .col { padding: 6px 0; }
+  .col-left, .col-center, .col-right { border: none; }
+
+  /* stack cards and enable natural page scrolling */
+  .card { margin-bottom: 12px; }
+  .card-mesh { min-height: 320px; }
+  #simCanvas { height: 320px; }
+
+  /* make forms single column */
+  .form-2col { grid-template-columns: 1fr; }
+
+  /* tighten some paddings and scale text a bit */
+  .enc-box { width: 94%; padding: 12px; }
+  .mesh-idle p { max-width: 260px; font-size: .68rem; }
+
+  /* make header logo slightly larger on mobile */
+  .hdr-logo { gap: 8px; }
+  .hdr-title { font-size: 1rem; }
+
+  /* ensure overlays cover properly */
+  .enc-overlay, .outcome-bar { left: 8px; right: 8px; }
+}
+
+@media (max-width: 420px) {
+  .card-mesh { min-height: 260px; }
+  #simCanvas { height: 260px; }
+  .enc-box { width: 98%; padding: 10px; }
+  .btn-primary, .btn-ghost { padding: 10px; font-size: .72rem; }
+}
