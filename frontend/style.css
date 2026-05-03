@@ -75,10 +75,11 @@ html, body {
 
 .hdr-logo { display: flex; align-items: center; gap: 9px; }
 .hdr-logo-icon {
-  width: 30px; height: 30px; border-radius: 8px;
+  width: 32px; height: 32px; border-radius: 8px;
   background: var(--gd); border: 1px solid rgba(0,230,160,.2);
-  display: grid; place-items: center; color: var(--green); flex-shrink: 0;
+  display: grid; place-items: center; overflow: hidden; flex-shrink: 0;
 }
+.hdr-logo-img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .hdr-title { font-size: .9rem; font-weight: 800; letter-spacing: -.3px; line-height: 1; }
 .hdr-title span { color: var(--green); }
 .hdr-sub { font-size: .55rem; color: var(--t3); font-family: var(--mono); letter-spacing: .06em; margin-top: 2px; }
@@ -461,6 +462,7 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3; }
   /* make header logo slightly larger on mobile */
   .hdr-logo { gap: 8px; }
   .hdr-title { font-size: 1rem; }
+  .hdr-logo-icon { width: 30px; height: 30px; }
 
   /* ensure overlays cover properly */
   .enc-overlay, .outcome-bar { left: 8px; right: 8px; }

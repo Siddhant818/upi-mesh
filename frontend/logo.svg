@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="UPIMesh logo">
+  <defs>
+    <linearGradient id="g" x1="96" y1="56" x2="416" y2="456" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#24f0c5"/>
+      <stop offset="1" stop-color="#00d9a1"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#0b0d18"/>
+  <g filter="url(#glow)" stroke="url(#g)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 246V165l106-70 106 70v81"/>
+    <path d="M162 288v107h188V288"/>
+    <circle cx="256" cy="258" r="74"/>
+    <path d="M360 160l-104 98"/>
+    <path d="M146 374l-60 60"/>
+    <path d="M366 158l58-58"/>
+    <circle cx="106" cy="434" r="28"/>
+    <circle cx="434" cy="106" r="28"/>
+  </g>
+  <g fill="#24f0c5">
+    <path d="M274 230h-23v-14h23c8 0 14-6 14-14s-6-14-14-14c-11 0-19 4-25 10l-11-10c9-9 22-16 37-16 16 0 29 10 29 26 0 12-7 20-17 24v1c12 4 21 13 21 28 0 19-16 31-38 31-15 0-29-5-39-15l11-11c7 7 18 11 29 11 12 0 20-7 20-16 0-10-7-17-24-17z"/>
+  </g>
+</svg>
