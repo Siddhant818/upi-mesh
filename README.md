@@ -191,13 +191,17 @@ Body:
 3. Framework Preset: **Other** (no build command needed)
 4. Deploy
 
-**After deployment — update `API_BASE` in `frontend/app.js`:**
+**After deployment — production URLs**
+
+Set the frontend `API_BASE` to the Railway backend URL in `frontend/app.js`:
 
 ```js
-const API_BASE = 'https://your-app.railway.app';  // ← your Railway URL
+const API_BASE = 'https://upi-mesh-production.up.railway.app';
 ```
 
-Then redeploy the frontend.
+Deployed frontend URL: https://upi-mesh.vercel.app/
+
+Note: Ensure your backend CORS settings in `backend/app.py` allow requests from `https://upi-mesh.vercel.app` (and adjust or remove `localhost` during testing).
 
 ---
 

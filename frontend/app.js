@@ -17,7 +17,7 @@
 
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://your-app.railway.app';   // ← update after Railway deploy
+  : 'https://upi-mesh-production.up.railway.app';
 
 // ══════════════════════════════════════════════════════════════
 //  BG MESH  (full-page ambient canvas)
