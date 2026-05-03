@@ -1,0 +1,58 @@
+# Python Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# SQLite Database Files (don't commit local databases)
+*.db
+*.db-shm
+*.db-wal
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# OS & Editor
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node (frontend tooling if added)
+node_modules/
+.npm
+npm-debug.log
+
+# Deployment
+.vercel/
+.railway/
+
+# Misc
+.DS_Store
+*.log

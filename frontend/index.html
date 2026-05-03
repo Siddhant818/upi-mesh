@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UPI Mesh — Offline Payment Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+  <div id="toastWrap"></div>
+
+  <div class="app">
+
+    <!-- ══ HEADER ══════════════════════════════════════════ -->
+    <header class="hdr">
+      <div class="hdr-logo">
+        <div class="hdr-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+            <circle cx="5" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="19" cy="5"  r="2.5" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="19" cy="19" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+            <line x1="7.2" y1="10.9" x2="16.8" y2="6.1"  stroke="currentColor" stroke-width="1.4"/>
+            <line x1="7.2" y1="13.1" x2="16.8" y2="17.9" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="hdr-title">UPI<span>Mesh</span></div>
+          <div class="hdr-sub">Offline Payment Network</div>
+        </div>
+      </div>
+
+      <div class="hdr-middle">
+        <div class="hdr-chip" id="backendChip">
+          <span class="chip-dot" id="backendDot"></span>
+          <span id="backendLabel">Connecting…</span>
+        </div>
+        <div class="hdr-chip live">
+          <span class="chip-dot pulse-green"></span>
+          LIVE
+        </div>
+      </div>
+
+      <div class="hdr-kpis">
+        <div class="kpi"><span class="kpi-v" id="hKpis0">₹0</span><span class="kpi-l">Volume</span></div>
+        <div class="kpi-div"></div>
+        <div class="kpi"><span class="kpi-v green" id="hKpis1">0</span><span class="kpi-l">Settled</span></div>
+        <div class="kpi-div"></div>
+        <div class="kpi"><span class="kpi-v amber" id="hKpis2">0</span><span class="kpi-l">Dupes</span></div>
+        <div class="kpi-div"></div>
+        <div class="kpi"><span class="kpi-v red" id="hKpis3">0</span><span class="kpi-l">Invalid</span></div>
+      </div>
+    </header>
+
+    <!-- ══ MAIN 3-COLUMN GRID ═══════════════════════════════ -->
+    <div class="grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="col col-left">
+
+        <!-- Send form -->
+        <div class="card" id="sendCard">
+          <div class="card-hdr">
+            <span class="card-label">Broadcast Payment</span>
+            <span class="badge">OFFLINE</span>
+          </div>
+
+          <div class="form-2col">
+            <div class="fg">
+              <label>From</label>
+              <select id="senderSel" class="inp">
+                <option value="alice@upi">alice@upi</option>
+                <option value="bob@upi">bob@upi</option>
+                <option value="charlie@upi">charlie@upi</option>
+                <option value="diana@upi">diana@upi</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>To</label>
+              <select id="receiverSel" class="inp">
+                <option value="bob@upi">bob@upi</option>
+                <option value="alice@upi">alice@upi</option>
+                <option value="charlie@upi">charlie@upi</option>
+                <option value="diana@upi">diana@upi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-2col">
+            <div class="fg">
+              <label>Amount <em>₹</em></label>
+              <input type="number" id="amtInput" class="inp inp-big" value="250" min="1" max="9999"/>
+            </div>
+            <div class="fg">
+              <label>Hops <em style="color:var(--t3)">(auto)</em></label>
+              <input type="number" id="hopsInput" class="inp" placeholder="2–8" min="2" max="8"/>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="sendBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Broadcast via Mesh
+          </button>
+          <button class="btn-ghost" id="multiBtn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="6" height="10" rx="1"/><rect x="9" y="4" width="6" height="13" rx="1"/><rect x="16" y="7" width="6" height="10" rx="1"/></svg>
+            3-bridge duplicate test
+          </button>
+        </div>
+
+        <!-- Accounts -->
+        <div class="card card-accounts">
+          <div class="card-hdr">
+            <span class="card-label">Accounts</span>
+            <button class="btn-tiny-danger" id="resetBtn">↺ Reset</button>
+          </div>
+          <div id="accountsList"></div>
+
+          <!-- Packet route lives here -->
+          <div id="hopRouteWrap" style="display:none">
+            <div class="route-label">Packet route</div>
+            <div class="route-chain" id="routeChain"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CENTER COLUMN — Mesh canvas -->
+      <div class="col col-center">
+        <div class="card card-mesh">
+          <div class="card-hdr">
+            <span class="card-label">Mesh Simulation</span>
+            <div class="legend">
+              <span class="leg"><i class="ld sender"></i>Sender</span>
+              <span class="leg"><i class="ld relay"></i>Relay</span>
+              <span class="leg"><i class="ld bridge"></i>Bridge</span>
+              <span class="leg"><i class="ld bank"></i>Bank</span>
+            </div>
+          </div>
+          <div class="mesh-wrap" id="meshWrap">
+            <canvas id="simCanvas"></canvas>
+
+            <!-- Encryption terminal overlay -->
+            <div class="enc-overlay" id="encOverlay" style="display:none">
+              <div class="enc-box">
+                <div class="enc-title">
+                  <span class="enc-icon">🔐</span>
+                  <span>Encrypting Packet</span>
+                </div>
+                <div class="enc-lines" id="encLines"></div>
+                <div class="enc-seal" id="encSeal" style="display:none">
+                  <div class="seal-ring"></div>
+                  <div class="seal-core">PKT</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Idle hint -->
+            <div class="mesh-idle" id="meshIdle">
+              <svg viewBox="0 0 48 48" fill="none" width="40" height="40" opacity=".35">
+                <circle cx="10" cy="24" r="4" stroke="currentColor" stroke-width="1.4"/>
+                <circle cx="38" cy="10" r="4" stroke="currentColor" stroke-width="1.4"/>
+                <circle cx="38" cy="38" r="4" stroke="currentColor" stroke-width="1.4"/>
+                <circle cx="24" cy="17" r="3" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="24" cy="31" r="3" stroke="currentColor" stroke-width="1.2"/>
+                <line x1="14" y1="22" x2="21" y2="19" stroke="currentColor" stroke-width="1"/>
+                <line x1="14" y1="26" x2="21" y2="29" stroke="currentColor" stroke-width="1"/>
+                <line x1="27" y1="17" x2="34" y2="12" stroke="currentColor" stroke-width="1"/>
+                <line x1="27" y1="31" x2="34" y2="36" stroke="currentColor" stroke-width="1"/>
+              </svg>
+              <p>Broadcast a payment to watch<br/>the encryption &amp; mesh animation</p>
+            </div>
+
+            <!-- Outcome badge -->
+            <div class="outcome-bar" id="outcomeBar" style="display:none">
+              <span id="outcomeText"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col col-right">
+
+        <!-- Stats -->
+        <div class="card">
+          <div class="card-hdr">
+            <span class="card-label">Network Stats</span>
+            <span class="upd" id="updBadge">↻ updated</span>
+          </div>
+          <div class="stats-list">
+            <div class="stat-row">
+              <span class="stat-lbl">Settled</span>
+              <span class="stat-val green" id="stSettled">0</span>
+              <div class="stat-bar-wrap"><div class="stat-bar-fill green" id="barSettled" style="width:0%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span class="stat-lbl">Duplicates</span>
+              <span class="stat-val amber" id="stDupe">0</span>
+              <div class="stat-bar-wrap"><div class="stat-bar-fill amber" id="barDupe" style="width:0%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span class="stat-lbl">Invalid</span>
+              <span class="stat-val red" id="stInvalid">0</span>
+              <div class="stat-bar-wrap"><div class="stat-bar-fill red" id="barInvalid" style="width:0%"></div></div>
+            </div>
+            <div class="stat-vol">
+              <span class="stat-lbl">Total Volume</span>
+              <span class="stat-val" id="stVol">₹0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live feed -->
+        <div class="card card-feed">
+          <div class="card-hdr">
+            <span class="card-label">Transaction Feed</span>
+            <span class="live-sm"><i class="pulse-dot"></i>live</span>
+          </div>
+          <div class="feed" id="feed">
+            <div class="feed-empty">No transactions yet</div>
+          </div>
+        </div>
+
+        <!-- Multi-bridge result (hidden until used) -->
+        <div class="card" id="multiCard" style="display:none">
+          <div class="card-hdr">
+            <span class="card-label">Deduplication Test</span>
+            <span class="badge amber">3 bridges</span>
+          </div>
+          <div id="multiBody"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
