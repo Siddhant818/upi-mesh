@@ -1,7 +1,7 @@
 # UPI Mesh — Offline Payment Network
 
 > Offline UPI payments routed through a Bluetooth-style mesh network.  
-> Python 3.11 + FastAPI backend · Vanilla HTML/CSS/JS frontend · SQLite · Railway + Vercel deployment.
+> Python 3.11 + FastAPI backend · Vanilla HTML/CSS/JS frontend · SQLite · Render + Vercel deployment.
 
 **Status:** Ready for production deployment  
 **License:** MIT
@@ -11,7 +11,7 @@
 ## 🔗 Live Demo
 
 Frontend: https://upi-mesh.vercel.app/  
-Backend (API docs): https://upi-mesh-production.up.railway.app/docs
+Backend (API docs): https://upi-mesh.onrender.com/docs
 
 ## 📌 Overview
 
@@ -22,7 +22,7 @@ This project simulates offline UPI payments where transactions are securely tran
 - Backend: FastAPI
 - Frontend: HTML, CSS, JavaScript
 - Database: SQLite
-- Deployment: Railway (backend), Vercel (frontend)
+- Deployment: Render (backend), Vercel (frontend)
 
 ## ✨ Features
 
@@ -53,7 +53,7 @@ and **silently uploads it** to this backend. The backend decrypts, deduplicates,
 - ✅ **Idempotent settlement**: SHA-256 hash-based deduplication prevents double-spending
 - ✅ **Freshness validation**: Timestamp-based checks reject replayed or stale packets
 - ✅ **Zero-setup backend**: Built-in SQLite, no external database required
-- ✅ **Fast deployment**: One-click deployment to Railway (backend) and Vercel (frontend)
+- ✅ **Fast deployment**: One-click deployment to Render (backend) and Vercel (frontend)
 
 ---
 
@@ -78,7 +78,7 @@ and **silently uploads it** to this backend. The backend decrypts, deduplicates,
 | Encryption | `cryptography` 43.0.3 — RSA-2048 + AES-256-GCM |
 | API Server | `uvicorn[standard]` 0.32.1 |
 | Frontend | HTML5 + CSS3 + Vanilla JavaScript |
-| Backend Deployment | Railway |
+| Backend Deployment | Render |
 | Frontend Deployment | Vercel |
 
 ---
@@ -94,8 +94,9 @@ upi-mesh/
 │   ├── simulator.py    ← Mesh hop simulator
 │   ├── database.py     ← SQLite setup + queries
 │   ├── requirements.txt
-│   ├── Procfile        ← Railway start command
-│   └── railway.toml    ← Railway config
+│   ├── Procfile        ← Render/Procfile start command
+│   ├── runtime.txt     ← Python version pin for Render
+│   └── render.yaml     ← Render blueprint
 └── frontend/
     ├── index.html      ← Dashboard UI
     ├── style.css       ← Dark cyber theme
@@ -181,13 +182,13 @@ Body:
 
 ---
 
-## Deploy to Railway (Backend)
+## Deploy to Render (Backend)
 
 1. Push code to GitHub
-2. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub
+2. Go to [render.com](https://render.com) → New + → Web Service
 3. Select the repo → set **Root Directory** to `backend`
-4. Railway auto-detects Python and uses `Procfile`
-5. Copy the generated URL (e.g. `https://upi-mesh.railway.app`)
+4. Render reads `runtime.txt` and `Procfile`/`render.yaml`
+5. Copy the generated URL (e.g. `https://upi-mesh.onrender.com`)
 
 ---
 
@@ -200,10 +201,10 @@ Body:
 
 **After deployment — production URLs**
 
-Set the frontend `API_BASE` to the Railway backend URL in `frontend/app.js`:
+Set the frontend `API_BASE` to the Render backend URL in `frontend/app.js`:
 
 ```js
-const API_BASE = 'https://upi-mesh-production.up.railway.app';
+const API_BASE = 'https://upi-mesh.onrender.com';
 ```
 
 Deployed frontend URL: https://upi-mesh.vercel.app/

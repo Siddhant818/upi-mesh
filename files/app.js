@@ -5,10 +5,10 @@
 // ══════════════════════════════════════════════════════════
 
 // ── CONFIG ─────────────────────────────────────────────────
-// Change this to your Railway URL after deployment
+// Change this to your Render URL after deployment
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://your-app.railway.app';   // ← UPDATE after Railway deploy
+  : 'https://upi-mesh.onrender.com';
 
 // ── STATE ──────────────────────────────────────────────────
 let isLoading = false;

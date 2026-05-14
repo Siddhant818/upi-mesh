@@ -17,7 +17,7 @@
 
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : 'https://upi-mesh-production.up.railway.app';
+  : 'https://upi-mesh.onrender.com';
 
 // ══════════════════════════════════════════════════════════════
 //  BG MESH  (full-page ambient canvas)
